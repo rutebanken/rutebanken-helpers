@@ -66,7 +66,7 @@
         <junit.jupiter.version>5.0.0-M2</junit.jupiter.version>
         <junit.vintage.version>${junit.version}.0-M2</junit.vintage.version>
         <junit.platform.version>1.0.0-M2</junit.platform.version>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.9.9</jackson.version>
         <keycloak.version>4.8.3.Final</keycloak.version>
         <spring.version>5.0.7.RELEASE</spring.version>
         <hazelcast.version>3.9.4</hazelcast.version>
