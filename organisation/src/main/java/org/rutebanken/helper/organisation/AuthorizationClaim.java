@@ -16,15 +16,24 @@
 
 package org.rutebanken.helper.organisation;
 
-import org.springframework.security.access.AccessDeniedException;
+public class AuthorizationClaim {
+    private String requiredRole;
+    private Long providerId;
 
-public class NotAuthenticatedException extends AccessDeniedException {
-
-    public NotAuthenticatedException(String message) {
-        super(message);
+    public AuthorizationClaim(String requiredRole, Long providerId) {
+        this.requiredRole = requiredRole;
+        this.providerId = providerId;
     }
 
-    public NotAuthenticatedException(String message, Throwable cause) {
-        super(message, cause);
+    public AuthorizationClaim(String requiredRole) {
+        this.requiredRole = requiredRole;
+    }
+
+    public String getRequiredRole() {
+        return requiredRole;
+    }
+
+    public Long getProviderId() {
+        return providerId;
     }
 }

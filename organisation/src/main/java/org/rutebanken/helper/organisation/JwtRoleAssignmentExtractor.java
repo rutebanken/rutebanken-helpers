@@ -17,24 +17,23 @@
 package org.rutebanken.helper.organisation;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.entur.jwt.spring.filter.JwtAuthenticationToken;
-import org.entur.jwt.verifier.JwtClaimException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.entur.jwt.spring.filter.JwtAuthenticationToken;
+import org.entur.jwt.verifier.JwtClaimException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
- * Extract RoleAssignments from KeycloakAuthenticationToken.
+ * Extract RoleAssignments from JwtAuthenticationToken.
  */
-public class KeycloakRoleAssignmentExtractor implements RoleAssignmentExtractor {
+public class JwtRoleAssignmentExtractor implements RoleAssignmentExtractor {
 
     private static final String ATTRIBUTE_NAME_ROLE_ASSIGNMENT = "roles";
     private static ObjectMapper mapper = new ObjectMapper();
@@ -55,10 +54,13 @@ public class KeycloakRoleAssignmentExtractor implements RoleAssignmentExtractor 
 			} catch (JwtClaimException e) {
                 throw new IllegalArgumentException("Unsupported 'roles' claim type.", e);
 			}
+			if(claim == null || claim.isEmpty()) {
+                throw new IllegalArgumentException("Unsupported 'roles' claim type.");
+			}
 
             return claim.stream().map(m -> parse(m)).collect(Collectors.toList());
         } else {
-            throw new NotAuthenticatedException("Not authenticated with token");
+            throw new AccessDeniedException("Not authenticated with token");
         }
     }
 
