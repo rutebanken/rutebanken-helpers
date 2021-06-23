@@ -86,7 +86,7 @@
         <!-- JDK8 still needed for compatibility with Chouette -->
         <java.version>8</java.version>
 
-        <keycloak.version>4.8.3.Final</keycloak.version>
+        <keycloak.version>14.0.0</keycloak.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
         <spring-cloud-gcp.version>2.0.1</spring-cloud-gcp.version>
         <camel.version>2.25.4</camel.version>
