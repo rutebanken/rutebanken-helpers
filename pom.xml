@@ -91,7 +91,7 @@
         <spring-cloud-gcp.version>2.0.1</spring-cloud-gcp.version>
         <camel.version>2.25.4</camel.version>
         <camel3.version>3.7.4</camel3.version>
-        <kubernetes-client.version>4.13.3</kubernetes-client.version>
+        <kubernetes-client.version>5.5.0</kubernetes-client.version>
         <commons-io.version>2.10.0</commons-io.version>
         <hazelcast-kubernetes.version>2.2.3</hazelcast-kubernetes.version>
 
