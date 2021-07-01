@@ -18,11 +18,10 @@ import java.util.stream.Collectors;
 
 /**
  * Extract @{@link RoleAssignment}s from @{@link JwtAuthenticationToken}.
- * Roles are expected to be defined in the "roles" claim, in JSON format.
+ * Role assignments are expected to be defined in the claim {@link RoROAuth2Claims#OAUTH2_CLAIM_ROLE_ASSIGNMENTS}, in JSON format.
  */
 public class JwtRoleAssignmentExtractor implements RoleAssignmentExtractor {
 
-    private static final String ATTRIBUTE_NAME_ROLE_ASSIGNMENT = "roles";
     private static ObjectMapper mapper = new ObjectMapper();
 
     public List<RoleAssignment> getRoleAssignmentsForUser() {
@@ -35,7 +34,7 @@ public class JwtRoleAssignmentExtractor implements RoleAssignmentExtractor {
         if (auth instanceof JwtAuthenticationToken) {
             JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) auth;
             Jwt jwt = (Jwt) jwtAuthenticationToken.getPrincipal();
-            Object claim = jwt.getClaim(ATTRIBUTE_NAME_ROLE_ASSIGNMENT);
+            Object claim = jwt.getClaim(RoROAuth2Claims.OAUTH2_CLAIM_ROLE_ASSIGNMENTS);
             if (claim == null) {
                 return Collections.emptyList();
             }
@@ -45,7 +44,7 @@ public class JwtRoleAssignmentExtractor implements RoleAssignmentExtractor {
             } else if (claim instanceof String) {
                 roleAssignmentList = Arrays.asList(((String) claim).split("##"));
             } else {
-                throw new IllegalArgumentException("Unsupported 'roles' claim type: " + claim);
+                throw new IllegalArgumentException("Unsupported claim type: " + claim);
             }
 
             return roleAssignmentList.stream().map(JwtRoleAssignmentExtractor::parse).collect(Collectors.toList());
@@ -60,8 +59,8 @@ public class JwtRoleAssignmentExtractor implements RoleAssignmentExtractor {
         }
         try {
             return mapper.readValue((String) roleAssignment, RoleAssignment.class);
-        } catch (IOException ioE) {
-            throw new IllegalArgumentException("Exception while parsing role assignments from JSON: " + ioE.getMessage(), ioE);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Exception while parsing role assignments from JSON", e);
         }
     }
 }
